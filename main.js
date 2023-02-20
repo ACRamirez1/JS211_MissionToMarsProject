@@ -9,10 +9,57 @@ const jobTypes = {
   programmer: 'Any Ship!'
 };
 
-// Your code will go here
+
+// Build a class for CrewMember.
+// should have a name, a job, a specialSkill and ship upon instantiation
+// Can Enter a ship
+
+class CrewMember {
+  constructor(name, job, specialSkill, ship){
+    this.name = name;
+    this.job = job;
+    this.specialSkill = specialSkill;
+    this.ship = ship;
+
+  }
+
+  enterShip = (vessel) => {
+    this.ship = vessel
+    vessel.crew.push(this)
+    // I don't have a way to get a ship yet, because ship class isn't defined. I'll come back to this. 
+    
+  }
+}
 
 
+class Ship {
+  constructor(name, type, ability){
+    this.name = name
+    this.type = type
+    this.ability = ability 
+    this.crew = [];
 
+  }
+
+  missionStatement = () => {
+    // ability
+
+    if(this.crew.length === 0){
+      return "Can't perform a mission yet."
+    } else {
+    return this.ability;
+    }
+  }
+}
+
+let mav = new Ship('Mars Ascent Vehicle', 'MAV', 'Ascend into low orbit')
+
+console.log(mav)
+
+const crewMember1 = new CrewMember('Rick Martinez', 'pilot', 'chemistry');
+crewMember1.enterShip(mav);
+
+console.log(crewMember1)
 
 
 
@@ -53,11 +100,17 @@ if (typeof describe === 'function'){
     });
 
     it('can return a mission statement correctly', function(){
-      let mav = new Ship('Mars Ascent Vehicle', 'MAV', 'Ascend into low orbit');
-      const crewMember1 = new CrewMember('Rick Martinez', 'pilot', 'chemistry');
+
+      let mav = new Ship('Mars Ascent Vehicle', 'MAV', 'Ascend into low orbit'); // "    ", [] <- no crew
+      const crewMember1 = new CrewMember('Rick Martinez', 'pilot', 'chemistry');//  "    ". null or undefined <- no ship
+
       let hermes = new Ship('Hermes', 'Main Ship', 'Interplanetary Space Travel');
       const crewMember2 = new CrewMember('Commander Lewis', 'commander', 'geology');
-      assert.equal(mav.missionStatement(), "Can't perform a mission yet.");
+
+      // At this point I have 2 ships and 2 crew members, but I haven't added any crew to the ships.
+
+
+      assert.equal(mav.missionStatement(), "Can't perform a mission yet."); // if I don't have crew, then I can't perform a mission yet.
       assert.equal(hermes.missionStatement(), "Can't perform a mission yet.");
 
       crewMember1.enterShip(mav);
